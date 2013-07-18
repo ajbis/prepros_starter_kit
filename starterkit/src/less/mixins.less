@@ -1,0 +1,18 @@
+/* ==========================================================================
+   MIXINS
+========================================================================== */
+
+.hr (@thickness: 1px, @style: solid, @color: #ccc) {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: @thickness @style @color;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.clearfix () {
+	zoom: 1;
+	&:before { content: ''; display: block; }
+	&:after { content: ''; display: table; clear: both; }
+}
