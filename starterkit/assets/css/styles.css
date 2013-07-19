@@ -721,5 +721,9 @@ body {
   height: 100%;
 }
 body {
-  color: #ff0000;
+  color: #333333;
+}
+#wrap {
+  overflow: visible;
+  border-width: 0;
 }
