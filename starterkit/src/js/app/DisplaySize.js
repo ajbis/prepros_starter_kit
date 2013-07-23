@@ -4,14 +4,18 @@
 
 	if (typeof window.App === 'undefined') window.App = function(){};
 
-	// args: j is ignored
-	window.App.DisplaySize = function(j){};
+	// args: j is only used to report temporary test results
+	window.App.DisplaySize = function(j){
+		this.j = j;
+	};
 
+	window.App.DisplaySize.prototype.j;
 	window.App.DisplaySize.prototype.dpr;
 	window.App.DisplaySize.prototype.screenWidth;
 	window.App.DisplaySize.prototype.screenHeight;
 	window.App.DisplaySize.prototype.widthInches;
 	window.App.DisplaySize.prototype.heightInches;
+	window.App.DisplaySize.prototype.screenSize;
 
 	window.App.DisplaySize.prototype.init = function(){
 
@@ -45,7 +49,7 @@
 			var inc = 0.25;
 			var min = 1;
 			var max = 10;
-			var str = '#calcPixelRatio { position: absolute }';
+			var str = '#calcPixelRatio { position: absolute; font-size: 1px; }';
 			var n = max/inc;
 			var i, c;
 
@@ -69,8 +73,6 @@
 
 			this.dpr = window.devicePixelRatio;
 		}
-
-		alert('dpr: '+this.dpr);
 
 		
 		// now get screen/device width & height
@@ -101,10 +103,6 @@
 		if (typeof screen.width !== 'undefined'){
 			w = screen.width;
 			h = screen.height;
-
-			// if (w > 0) this.screenWidth = w;
-			// if (h > 0) this.screenHeight = h;
-
 		}
 		window.main.customEvents.doEvent('log', 'Screen width: '+w+', height: '+h);
 
@@ -128,64 +126,34 @@
 
 		w2 = findDim('width');
 		h2 = findDim('height');
-		
-
-		// if (window.matchMedia('(device-width: 1280px)').matches)
-		// 	w2 = 1280;
-		// if (window.matchMedia('(device-width: 1024px)').matches)
-		// 	w2 = 1024;
-		// if (window.matchMedia('(device-width: 800px)').matches)
-		// 	w2 = 800;
-		// if (window.matchMedia('(device-width: 768px)').matches)
-		// 	w2 = 768;
-		// if (window.matchMedia('(device-width: 568px)').matches)
-		// 	w2 = 568;
-		// if (window.matchMedia('(device-width: 480px)').matches)
-		// 	w2 = 480;
-		// if (window.matchMedia('(device-width: 320px)').matches)
-		// 	w2 = 360;
-		// if (window.matchMedia('(device-width: 320px)').matches)
-		// 	w2 = 320;
-
-		// if (window.matchMedia('(device-height: 1024px)').matches)
-		// 	w2 = 1024;
-		// if (window.matchMedia('(device-height: 800px)').matches)
-		// 	w2 = 800;
-		// if (window.matchMedia('(device-height: 768px)').matches)
-		// 	w2 = 768;
-		// if (window.matchMedia('(device-height: 600px)').matches)
-		// 	w2 = 600;
-		// if (window.matchMedia('(device-height: 568px)').matches)
-		// 	w2 = 568;
-		// if (window.matchMedia('(device-height: 480px)').matches)
-		// 	w2 = 480;
-		// if (window.matchMedia('(device-height: 360px)').matches)
-		// 	w2 = 360;
-		// if (window.matchMedia('(device-height: 320px)').matches)
-		// 	w2 = 320;
 
 
 
 		window.main.customEvents.doEvent('log', 'Device width: '+w2+', height: '+h2);
 
 		// if device-width & screen width are the same, but dpr > 1...
-		// it screen.width must be using dips (leave screenWidth/scrrenHeight as set)
+		// then screen.width must be using dips (leave screenWidth/screenHeight as set)
 
 		if (this.dpr > 1){
 
 			if (w === w2){
-				this.widthInches = (w*this.dpr)/w;
-				this.heightInches = (h*this.dpr)/h;
+				w = w*this.dpr;
+				h = h*this.dpr;
 			}
-			else {
-				this.widthInches = (w*this.dpr)/w;
-				this.heightInches = (h*this.dpr)/h;
-			}
-
+				
+			this.widthInches = w/(w*this.dpr/96);
+			this.heightInches = w/(h*this.dpr/96);
 		}
-		
+		else {
+			this.widthInches = w/96;
+			this.heightInches = h/96;
+		}
 
-		// otherwise
+		// diagonal screen size
+		this.screenSize = Math.round(Math.sqrt(this.widthInches*this.widthInches + this.heightInches*this.heightInches));
+
+		// Temp test, print results to screen (to view on devices)
+		this.j.append('<p>DPR: ' + this.dpr + '<br />Screen: ' + w + ' x ' + h + '<br />Device: ' + w2 + ' x ' + h2 + '<br />Physical size: ' + this.screenSize + '&quot;</p>');
 
 
 
