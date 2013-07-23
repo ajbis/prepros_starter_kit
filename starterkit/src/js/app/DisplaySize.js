@@ -178,12 +178,17 @@
 		}
 
 		// diagonal screen size
-		this.screenSize = Math.round(Math.sqrt(this.widthInches*this.widthInches + this.heightInches*this.heightInches));
+		this.screenSize = /*Math.round(*/Math.sqrt(this.widthInches*this.widthInches + this.heightInches*this.heightInches/*)*/);
 
 		// Temp test, print results to screen (to view on devices)
-		this.j.append('<p>DPR: ' + this.dpr + '<br />Screen: ' + w + ' x ' + h + '<br />Device: ' + w2 + ' x ' + h2 + '<br />Reported size: ' + this.screenSize + '&quot;</p>');
+		// these results do not consider PPI (maybe we can use an average?)
+		this.j.append('<p>DPR: ' + this.dpr + '<br />Screen: ' + w + ' x ' + h + '<br />Device: ' + w2 + ' x ' + h2 + '<br />Est inches: ' + this.widthInches + ', ' + this.heightInches + '<br />Reported size: ' + this.screenSize + '&quot;</p>');
 
-
+		// maybe some media query tests for device width & height in inches would be more effective!
+		var inch = $('<div style="width: 1in; height: 1in; background: #999;"></div>');
+		this.j.append(inch);
+		c = inch.width();
+		this.j.append('<p>One inch = '+c+'</p>')
 
 
 		/// Zoom levels
