@@ -20,7 +20,6 @@
 	window.App.DisplaySize.prototype.init = function(){
 
 		// get the display metrics from window
-		window.main.customEvents.doEvent('log', 'Pixel Ratio: '+window.devicePixelRatio);
 
 		//* firefox reports css pixels as screen.width/height & the ratio of device pixels vs css pixels
 		/// for devicePixelRatio (multiply screen.width by devicePixelRatio for true screen width!)
@@ -41,10 +40,21 @@
 
 		// ie & nokia xpress report undefined
 		if (typeof window.devicePixelRatio === 'undefined'){
-
+			window.main.customEvents.doEvent('log', 'typeof tested');
 			/// can we add a @media with jquery to help detect dpr (for ie9/10)
 			/// ie uses 25% increments for scaling all the way up til 1000%
-			var styles = $('<style type="text/css"></style>');
+			/// if user puts in a custom zoom level then reported dpr will be to closest 25%.
+			/// devices that cannot read @media will rep0rt 1 (from default font-size of #calcPixelRatio)
+
+			var styles, css;
+
+			if (document.createStyleSheet){
+				styles = document.createStyleSheet("");
+				css = "";
+			}
+			else {
+				styles = $('<style type="text/css"></style>');
+			} 
 			var temp = $('<div id="calcPixelRatio"></div>');
 			var inc = 0.25;
 			var min = 1;
@@ -53,13 +63,26 @@
 			var n = max/inc;
 			var i, c;
 
+			window.main.customEvents.doEvent('log', 'vars ready');
+
 			for (i = min/inc; i <= n; i++){
 				c = i*inc;
 				str += '@media only screen and (min-resolution: '+Math.floor(c*96)+'dpi) { #calcPixelRatio { font-size: '+c+'px; } }\n';
 			}
 
-			styles.text(str);
-			$('head').append(styles);
+			
+
+			window.main.customEvents.doEvent('log', 'looped');
+
+			if (typeof css !== 'undefined'){
+				styles.cssText = str;
+			}
+			else {
+				styles.text(str);
+				$('head').append(styles);
+			}
+
+			window.main.customEvents.doEvent('log', 'head');
 			$('body').append(temp);
 			c = $('#calcPixelRatio').css('font-size');
 			window.main.customEvents.doEvent('log', '#calcPixelRatio = ' + c);
@@ -108,24 +131,29 @@
 
 
 		// now lets check this against media queries
+		// ie7-9 doesn't support mediaMatch, so this double-check is skipped
+		// (i don't think there's many high pixel denisity devices prior to ie10)
+		if (window.matchMedia){
 
-		//list of common devive resolutions
-		var dd = [ 8192, 7680, 6400, 5120, 4800, 4608, 4320, 4096, 3840, 3200, 3072, 2880, 2800, 2560, 2400, 2304, 2160, 2100, 2048, 1920, 1856, 1800, 1792, 1728, 1700, 1680, 1600, 1536, 1440, 1400, 1392, 1366, 1344, 1280, 1200, 1152, 1136, 1120, 1080, 1050, 1024, 960, 900, 864, 854, 832, 800, 768, 720, 640, 624, 600, 576, 560, 540, 512, 500, 480, 432, 400, 384, 376, 364, 360, 352, 350, 348, 342, 320, 300, 280, 272, 270, 256, 250, 240, 234, 224, 220, 208, 200, 192, 176, 168, 160, 152, 150, 144, 128, 102, 96, 84, 75, 72, 65, 64, 60, 48, 42, 40, 32, 30, 16, 11 ];
-		n = dd.length;
+			//list of common devive resolutions
+			var dd = [ 8192, 7680, 6400, 5120, 4800, 4608, 4320, 4096, 3840, 3200, 3072, 2880, 2800, 2560, 2400, 2304, 2160, 2100, 2048, 1920, 1856, 1800, 1792, 1728, 1700, 1680, 1600, 1536, 1440, 1400, 1392, 1366, 1344, 1280, 1200, 1152, 1136, 1120, 1080, 1050, 1024, 960, 900, 864, 854, 832, 800, 768, 720, 640, 624, 600, 576, 560, 540, 512, 500, 480, 432, 400, 384, 376, 364, 360, 352, 350, 348, 342, 320, 300, 280, 272, 270, 256, 250, 240, 234, 224, 220, 208, 200, 192, 176, 168, 160, 152, 150, 144, 128, 102, 96, 84, 75, 72, 65, 64, 60, 48, 42, 40, 32, 30, 16, 11 ];
+			n = dd.length;
 
-		var findDim = function(str){
+			var findDim = function(str){
 
-			for (i = 0; i < n; i++){
-				c = dd[i];
-				if (window.matchMedia('(device-'+str+': '+c+'px)').matches)
-					return c;
-			}
+				for (i = 0; i < n; i++){
+					c = dd[i];
+					if (window.matchMedia('(device-'+str+': '+c+'px)').matches)
+						return c;
+				}
 
-			return 0;
-		};
+				return 0;
+			};
 
-		w2 = findDim('width');
-		h2 = findDim('height');
+			w2 = findDim('width');
+			h2 = findDim('height');
+
+		}
 
 
 
@@ -136,13 +164,13 @@
 
 		if (this.dpr > 1){
 
-			if (w === w2){
+			// both reporting dips or screen reporting dips
+			if (w === w2 || w2 === w*this.dpr){
 				w = w*this.dpr;
 				h = h*this.dpr;
 			}
-				
-			this.widthInches = w/(w*this.dpr/96);
-			this.heightInches = w/(h*this.dpr/96);
+			this.widthInches = w/(this.dpr*96);
+			this.heightInches = h/(this.dpr*96);
 		}
 		else {
 			this.widthInches = w/96;
@@ -153,7 +181,7 @@
 		this.screenSize = Math.round(Math.sqrt(this.widthInches*this.widthInches + this.heightInches*this.heightInches));
 
 		// Temp test, print results to screen (to view on devices)
-		this.j.append('<p>DPR: ' + this.dpr + '<br />Screen: ' + w + ' x ' + h + '<br />Device: ' + w2 + ' x ' + h2 + '<br />Physical size: ' + this.screenSize + '&quot;</p>');
+		this.j.append('<p>DPR: ' + this.dpr + '<br />Screen: ' + w + ' x ' + h + '<br />Device: ' + w2 + ' x ' + h2 + '<br />Reported size: ' + this.screenSize + '&quot;</p>');
 
 
 
@@ -161,8 +189,6 @@
 		/// Zoom levels
 		/// Firefox 110, 120, 133, 150, 170, 200, 240, 300
 		/// IE 100, 125, 150(, 175), 200(, 225, 250, 275, 300), 400(, +25 ... 1000)
-
-		/// if (window.matchMedia('(max-device-width: 960px)').matches) {}
 		
 	};
 
