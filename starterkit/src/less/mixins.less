@@ -2,7 +2,7 @@
    MIXINS
 ========================================================================== */
 
-.hr (@thickness: 1px, @style: solid, @color: #ccc) {
+.hr(@thickness: 1px, @style: solid, @color: #ccc) {
     display: block;
     height: 1px;
     border: 0;
@@ -11,8 +11,25 @@
     padding: 0;
 }
 
-.clearfix () {
+.clearfix() {
 	zoom: 1;
 	&:before { content: ''; display: block; }
 	&:after { content: ''; display: table; clear: both; }
+}
+
+.fontface(@fontname, @fontfile) {
+        font-family: '@{fontname}';
+        src: url('fonts/@{fontfile}.eot');
+        src: url('fonts/@{fontfile}.eot?#iefix') format('embedded-opentype'),
+             url('fonts/@{fontfile}.woff') format('woff'),
+             url('fonts/@{fontfile}.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+}
+
+///////////// SKETCH ////////////////
+
+
+.sketchy(@bgcolor: #fff, @img: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAExJREFUeNpi0NPTmwDEzxkZGf8B8RcGBoadQMxwAYj/gzBQ8BuQ/sIIJD4DMQ8DBHwE4n9MQOI5VOVvKH4MEtwNVcUCxN+B+ClAgAEAdT8UReM+pX8AAAAASUVORK5CYII=')) {
+    background: @img top left repeat-x, @img top left repeat-y, @img top right repeat-y, @img bottom left repeat-x;
 }

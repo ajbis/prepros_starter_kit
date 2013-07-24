@@ -179,6 +179,7 @@
 
 		// diagonal screen size
 		this.screenSize = /*Math.round(*/Math.sqrt(this.widthInches*this.widthInches + this.heightInches*this.heightInches/*)*/);
+		window.main.customEvents.doEvent('log', 'Reported size: '+ this.screenSize + '"');
 
 		// Temp test, print results to screen (to view on devices)
 		// these results do not consider PPI (maybe we can use an average?)
@@ -188,7 +189,7 @@
 		var inch = $('<div style="width: 1in; height: 1in; background: #999;"></div>');
 		this.j.append(inch);
 		c = inch.width();
-		this.j.append('<p>One inch = '+c+'</p>')
+		this.j.append('<p>One inch = <strong>'+c+'</strong></p>')
 
 
 		/// Zoom levels

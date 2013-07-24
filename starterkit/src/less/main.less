@@ -4,13 +4,42 @@
    MAIN
 ========================================================================== */
 
-@mainColor: #f00;
+@mainColor: #444;
+@fontRegular: 'Sketchy';
+@fontBold: 'Sketchy Bold';
+@fontSize: 1.2em;
+@leading: 1.1em;
 
-body {
-	color: @mainColor;
+@font-face {
+	.fontface(@fontRegular, 'sketchy/sketchy-regular-webfont');
+}
+@font-face {
+	.fontface(@fontBold, 'sketchy/sketchy-bold-webfont');
 }
 
 
+body {
+	color: @mainColor;
+	font-family: @fontRegular;
+	font-size: @fontSize;
+	line-height: @leading;
+}
+
+.wf-active strong, .wf-active b, .wf-active h1, .wf-active h2, .wf-active h3, .wf-active h4, .wf-active h5.wf-active h6, .wf-active th, .wf-active dialog  {
+	font-weight: normal;
+	font-family: @fontBold;
+}
+
+.wf-active i, .wf-active em, .wf-active cite, .wf-active address, .wf-active dfn, .wf-active var {
+	font-style: normal;
+	font-family: @fontBold;
+}
+
+#wrap {
+	margin: 5%;
+	padding: 5%;
+	.sketchy();
+}
 
 
 

@@ -645,8 +645,51 @@ textarea {
 /* ==========================================================================
    MAIN
 ========================================================================== */
+@font-face {
+  font-family: 'Sketchy';
+  src: url('fonts/sketchy/sketchy-regular-webfont.eot');
+  src: url('fonts/sketchy/sketchy-regular-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/sketchy/sketchy-regular-webfont.woff') format('woff'), url('fonts/sketchy/sketchy-regular-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Sketchy Bold';
+  src: url('fonts/sketchy/sketchy-bold-webfont.eot');
+  src: url('fonts/sketchy/sketchy-bold-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/sketchy/sketchy-bold-webfont.woff') format('woff'), url('fonts/sketchy/sketchy-bold-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 body {
-  color: #ff0000;
+  color: #444444;
+  font-family: 'Sketchy';
+  font-size: 1.2em;
+  line-height: 1.1em;
+}
+.wf-active strong,
+.wf-active b,
+.wf-active h1,
+.wf-active h2,
+.wf-active h3,
+.wf-active h4,
+.wf-active h5.wf-active h6,
+.wf-active th,
+.wf-active dialog {
+  font-weight: normal;
+  font-family: 'Sketchy Bold';
+}
+.wf-active i,
+.wf-active em,
+.wf-active cite,
+.wf-active address,
+.wf-active dfn,
+.wf-active var {
+  font-style: normal;
+  font-family: 'Sketchy Bold';
+}
+#wrap {
+  margin: 5%;
+  padding: 5%;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAExJREFUeNpi0NPTmwDEzxkZGf8B8RcGBoadQMxwAYj/gzBQ8BuQ/sIIJD4DMQ8DBHwE4n9MQOI5VOVvKH4MEtwNVcUCxN+B+ClAgAEAdT8UReM+pX8AAAAASUVORK5CYII=') top left repeat-x, url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAExJREFUeNpi0NPTmwDEzxkZGf8B8RcGBoadQMxwAYj/gzBQ8BuQ/sIIJD4DMQ8DBHwE4n9MQOI5VOVvKH4MEtwNVcUCxN+B+ClAgAEAdT8UReM+pX8AAAAASUVORK5CYII=') top left repeat-y, url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAExJREFUeNpi0NPTmwDEzxkZGf8B8RcGBoadQMxwAYj/gzBQ8BuQ/sIIJD4DMQ8DBHwE4n9MQOI5VOVvKH4MEtwNVcUCxN+B+ClAgAEAdT8UReM+pX8AAAAASUVORK5CYII=') top right repeat-y, url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAExJREFUeNpi0NPTmwDEzxkZGf8B8RcGBoadQMxwAYj/gzBQ8BuQ/sIIJD4DMQ8DBHwE4n9MQOI5VOVvKH4MEtwNVcUCxN+B+ClAgAEAdT8UReM+pX8AAAAASUVORK5CYII=') bottom left repeat-x;
 }
 /* ==========================================================================
    STIEFEL RESPONSIVE
@@ -715,15 +758,4 @@ body {
   h3 {
     page-break-after: avoid;
   }
-}
-html,
-body {
-  height: 100%;
-}
-body {
-  color: #333333;
-}
-#wrap {
-  overflow: visible;
-  border-width: 0;
 }

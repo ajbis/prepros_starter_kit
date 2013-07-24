@@ -19,6 +19,10 @@
 
 		// start
 	    $(window).resize($.proxy((this.ie ? startTimer : doResize), this));
+
+        // listeners
+        window.main.customEvents.addTo('ADD_TO_RESIZE', $.proxy(this.addTo, this));
+        window.main.customEvents.addTo('REMOVE_FROM_RESIZE', $.proxy(this.removeFrom, this));
 	};
 
 
@@ -61,5 +65,6 @@
             }
         }
     };
+
 
 })();
