@@ -27,6 +27,72 @@
         font-style: normal;
 }
 
+.reset() {
+    margin: 0;
+    padding: 0;
+    border-width: 0;
+}
+
+.resetImportant() {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-width: 0 !important;
+}
+
+.topRight() {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.shadow(@x: 0, @y: 1px, @blur: 2px, @rgba: rgba(0, 0, 0, 0.1)) {
+    -webkit-box-shadow: @x @y @blur @rgba;
+    -moz-box-shadow: @x @y @blur @rgba;
+    box-shadow: @x @y @blur @rgba;
+}
+
+.ie8-shadow(@str: 1, @dir: 90, @hex: #cccccc) {
+    /* IE8+ */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=@{str}, Direction=@{dir}, Color='@{hex}')";
+}
+
+.removeShadow() {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.borderImageGradient(@width: 1, @dir: left, @start: 0%, @stop: 100%, @col1: #fff, @col2: #000) {
+    //-webkit-border-image: -webkit-linear-gradient(@dir, @col1 @start, @col2 @stop) @width @width @width @width repeat stretch;
+    -moz-border-image: -moz-linear-gradient(@dir, @col1 @start, @col2 @stop) @width @width @width @width repeat stretch;
+    border-image: linear-gradient(to @dir, @col2 @start, @col1 @stop) @width repeat stretch;
+}
+
+.gradientWithImage(@color: #F5F5F5, @start: #EEE, @stop: #FFF, @url: none, @posx: center, @posy: center) {
+  background: @color @url @posx @posy no-repeat;
+  background: @url @posx @posy no-repeat, -webkit-gradient(linear, left bottom, left top, color-stop(0, @start), color-stop(1, @stop));
+  background: @url @posx @posy no-repeat, -ms-linear-gradient(bottom, @start, @stop);
+  background: @url @posx @posy no-repeat, -moz-linear-gradient(center bottom, @start 0%, @stop 100%);
+  background: @url @posx @posy no-repeat, -o-linear-gradient(@stop, @start);
+}
+
+.gradientStops(@dir: left, @start: 0%, @stop: 100%, @col1: #fff, @col2: #000, @col3: #000) {
+  background: @col3;
+  background: -webkit-linear-gradient(@dir, @col1 @start, @col2 @stop);
+  background: -moz-linear-gradient(@dir, @col1 @start, @col2 @stop);
+  background: linear-gradient(from @dir, @col2 @start, @col1 @stop);
+}
+
+// stop or encourage css columns to break inside elements
+.breakInside(@break: avoid) {
+  -webkit-column-break-inside: @break;
+  -ms-column-break-inside: @break;
+  column-break-inside: @break;
+  page-break-inside: @break;
+  break-inside: @break;
+}
+
+
 ///////////// SKETCH ////////////////
 
 
