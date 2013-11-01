@@ -23,6 +23,75 @@
 
 // Place any jQuery/helper plugins etc in here.
 
+(function(){
+    // sort out which is the window scroll element
+    $.scrollPage = null;
+    $(document).ready(function(){
+        $.scrollPage = $('html, body');
+        $('html, body').each(function () {
+            var i = $(this).scrollTop();
+            if ($(this).scrollTop !== null) {
+                $.scrollPage = $(this.nodeName.toLowerCase());
+                return false;
+            }
+        });
+    });
+
+    // get the hieght of the document
+    $.getDocHeight = function(){
+        return Math.max(
+            $(document).height(),
+            $(window).height(),
+            /* For opera: */
+            document.documentElement.clientHeight
+        );
+    };
+
+    // name, value, time (in days), domain (optional)
+    $.cookie = function(n, v, t, d){
+        var c;
+
+        if (d === undefined) {
+            d = "";
+        } else {
+            d = ' domain=' + d;
+        }
+        c = "";
+        if (t !== undefined && t !== 0) {
+            c = new Date();
+            c.setTime(c.getTime() + (t * 24 * 60 * 60 * 1000));
+            c.toGMTString();
+            //console.log(c.toGMTString());
+        }
+        document.cookie = n + '=' + v + '; expires=' + c + ';  path=/;' + d;
+    };
+
+    $.getCookie = function(na){
+        var i, n, c, cookies = document.cookie.split(';');
+        na = na + '=';
+        n = cookies.length;
+        for (i = 0; i < n; i += 1) {
+            c = cookies[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1, c.length);
+                if (c.indexOf(na) === 0) {
+                    return c.substr(na.length, c.length);
+                }
+            }
+        }
+        return null;
+    };
+
+    $.clearCookie = function(na, d){
+       if (d === undefined) {
+            this.cookie(na, "", -1);
+        } else {
+            this.cookie(na, "", -1, d);
+        }
+    }
+    
+})(jQuery);
+
 
 // https://github.com/typekit/webfontloader#get-started
 
