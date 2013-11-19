@@ -1,53 +1,54 @@
-;(function(){
+/*jslint browser:true*/
+/*global $*/
 
-	if (typeof window.App === 'undefined') window.App = function(){};
+(function () {
+    "use strict";
+    if (window.App === undefined) {
+        window.App = function () {
+            return;
+        };
+    }
 
-	// args: expects meta[name=viewport] jquery object
-	window.App.ViewportOrientation = function(j){
-		this.j = j;
-	};
-
-	window.App.ViewportOrientation.prototype.j;
-	window.App.ViewportOrientation.prototype.dw = 'device-width';
-	window.App.ViewportOrientation.prototype.dh = 'device-height';
-
-
-	window.App.ViewportOrientation.prototype.init = function(){
-		
-		// check j is viewport meta
-		if (!this.j.is('meta') || this.j.attr('name') !== 'viewport'){
-			window.main.customEvents.doEvent('log', 'ViewportOrientation j NOT meta!');
-			return;
-		}
-		
-		// see if orientation change is supported
-		if (typeof window.orientation !== 'undefined'){
-			$(window).on('orientationchange', $.proxy(this.switchOrientation, this));
-			this.switchOrientation();
-		}
-
-	};
+    // args: expects meta[name=viewport] jquery object
+    window.App.ViewportOrientation = function (j) {
+        this.j = j;
+        this.dw = 'device-width';
+        this.dh = 'device-height';
+    };
 
 
-	// actions
+    window.App.ViewportOrientation.prototype.init = function () {
+        // check j is viewport meta
+        if (!this.j.is('meta') || this.j.attr('name') !== 'viewport') {
+            window.main.customEvents.doEvent('log', 'ViewportOrientation j NOT meta!');
+            return;
+        }
 
-	window.App.ViewportOrientation.prototype.switchOrientation = function(){
+        // see if orientation change is supported
+        if (window.orientation !== undefined) {
+            $(window).on('orientationchange', $.proxy(this.switchOrientation, this));
+            this.switchOrientation();
+        }
 
-		var o = window.orientation;
-		var w, h;
+    };
 
-		if (Math.abs(o) === 90){
-			w = this.dh;
-			h = this.dw;
-		}
-		else {
-			w = this.dw;
-			h = this.dh;
-		}
 
-		this.j.attr('content', 'width='+w+', height='+h+', initial-scale=1');
-		window.main.customEvents.doEvent('log', 'Orientation: '+o);
-		$('#wrap').text('Orientation: '+o);
-	};
+    // actions
 
-})();
+    window.App.ViewportOrientation.prototype.switchOrientation = function () {
+        var w, h, o = window.orientation;
+
+        if (Math.abs(o) === 90) {
+            w = this.dh;
+            h = this.dw;
+        } else {
+            w = this.dw;
+            h = this.dh;
+        }
+
+        this.j.attr('content', 'width=' + w + ', height=' + h + ', initial-scale=1');
+        window.main.customEvents.doEvent('log', 'Orientation: ' + o);
+        $('#wrap').text('Orientation: ' + o);
+    };
+
+}());

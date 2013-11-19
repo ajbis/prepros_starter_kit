@@ -1,7 +1,13 @@
-// Avoid `console` errors in browsers that lack a console.
-(function() {
+/*jslint browser:true*/
+/*global $, jQuery*/
+
+// Avoid 'console' errors in browsers that lack a console.
+(function () {
+    "use strict";
     var method;
-    var noop = function(){};
+    var noop = function () {
+        return;
+    };
     var methods = [
         'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
         'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
@@ -21,12 +27,13 @@
     }
 }());
 
+
 // Place any jQuery/helper plugins etc in here.
 
-(function(){
+(function () {
     // sort out which is the window scroll element
     $.scrollPage = null;
-    $(document).ready(function(){
+    $(document).ready(function () {
         $.scrollPage = $('html, body');
         $('html, body').each(function () {
             var i = $(this).scrollTop();
@@ -38,7 +45,7 @@
     });
 
     // get the hieght of the document
-    $.getDocHeight = function(){
+    $.getDocHeight = function () {
         return Math.max(
             $(document).height(),
             $(window).height(),
@@ -48,7 +55,7 @@
     };
 
     // name, value, time (in days), domain (optional)
-    $.cookie = function(n, v, t, d){
+    $.cookie = function (n, v, t, d) {
         var c;
 
         if (d === undefined) {
@@ -66,7 +73,7 @@
         document.cookie = n + '=' + v + '; expires=' + c + ';  path=/;' + d;
     };
 
-    $.getCookie = function(na){
+    $.getCookie = function (na) {
         var i, n, c, cookies = document.cookie.split(';');
         na = na + '=';
         n = cookies.length;
@@ -82,34 +89,34 @@
         return null;
     };
 
-    $.clearCookie = function(na, d){
-       if (d === undefined) {
+    $.clearCookie = function (na, d) {
+        if (d === undefined) {
             this.cookie(na, "", -1);
         } else {
             this.cookie(na, "", -1, d);
         }
-    }
-    
-})(jQuery);
+    };
+
+}(jQuery));
 
 
 // https://github.com/typekit/webfontloader#get-started
 
-WebFontConfig = {
+var WebFontConfig = {
     custom: {
         families: ['Sketchy', 'Sketchy Bold'],
         urls: ['assets/css/styles.css']
     }
 };
 
-(function() {
+(function () {
     var wf = document.createElement('script');
-    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+    wf.src = ('https:' === document.location.protocol ? 'https' : 'http') +
         '://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js';
     wf.type = 'text/javascript';
     wf.async = 'true';
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
-})();
+}());
 
 
